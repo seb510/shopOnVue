@@ -1,0 +1,20 @@
+img {
+    max-width: 100%;
+}
+
+.product {
+    padding: 40px 0;
+}
+
+.btn-cart {
+    min-width: 60px;
+    display: flex;
+    align-items: center;
+    line-height: 1;
+}
+
+.btn-cart svg {
+    margin: 0 8px;
+}
+
+
