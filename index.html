@@ -31,30 +31,61 @@
     </header>
      <main class="main">
          <div class="container">
-             <div class="row product">
-                 <div class="col-12 col-lg-5">
-                     <figure>
-                         <img :src="product.image" alt="Product for cate">
-                     </figure>
-                 </div>
-                 <div class="col-12 col-lg-7 col-expand">
-                     <h2 v-text="product.title"></h2>
-                     <p v-html="product.description"></p>
-                     <p class="price">
-                         {{product.price | formatPrice }}
-                     </p>
-                     <button type="button" class="btn btn-primary" @click="addToCart" v-if="canAddToCart">
-                         Add to cart
-                     </button>
-                     <button type="button" v-else class="btn btn-primary disabled">
-                         Add to cart
-                     </button>
+             <div v-if="showProduct">
+
+                 <div class="row product" v-for="product in products ">
+                     <div class="col-12 col-lg-5">
+                         <figure>
+                             <img :src="product.image" alt="Product for cate">
+                         </figure>
+                     </div>
+                     <div class="col-12 col-lg-7 col-expand">
+                         <h2 v-text="product.title"></h2>
+                         <p v-html="product.description"></p>
+                         <p class="price">
+                             {{product.price | formatPrice }}
+                         </p>
+                         <div class="info-group">
+                             <button type="button" class="btn btn-primary" @click="addToCart(product)" v-if="canAddToCart(product)">
+                                 Add to cart
+                             </button>
+                             <button type="button" v-else class="btn btn-primary disabled" disabled="true">
+                                 Add to cart
+                             </button>
+                             <span class="inventory-message alert-danger"
+                                   v-if="product.availableInventory - cartCount(product.id) === 0">
+                        All Out
+                     </span>
+                             <span class="inventory-message alert-warning"
+                                   v-else-if="product.availableInventory - cartCount(product.id) < 5">
+                         Only {{product.availableInventory - cartCount(product.id)}} left!
+                     </span>
+                             <span class="inventory-message alert-success"
+                                   v-else>
+                         Buy Now!
+                     </span>
+                             <div class="rating">
+                         <span v-for="n in 5" v-bind:class="{'rating-active': checkRating(n, product)}">
+                             <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px"
+                                  y="0px" width="30px" height="35px" viewBox="0 0 122.88 116.864" enable-background="new 0 0 122.88 116.864" fill=""
+                                  xml:space="preserve"><g><polygon fill-rule="evenodd" clip-rule="evenodd" points="61.44,0 78.351,41.326 122.88,44.638 88.803,73.491 99.412,116.864 61.44,93.371 23.468,116.864 34.078,73.491 0,44.638 44.529,41.326 61.44,0"/></g></svg>
+                         </span>
+                             </div>
+                         </div>
+                     </div>
                  </div>
              </div>
+             <div v-else>
+                 <div class="row">
+
+                 </div>
+             </div>
+
          </div>
      </main>
  </div>
 
+ <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.0/dist/vue.js"></script>
 <script src="assets/js/app.js"></script>
 

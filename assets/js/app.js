@@ -24,14 +24,7 @@ let webstore = new Vue({
             CA: 'California',
             NV: 'Nevada',
         },
-        product: {
-            id: 1002,
-            title: 'Cat Food, 215b bag',
-            description: "A 25 pound ba of <em>irresistible</em>," + " organic goodness for your cat",
-            price: 2000,
-            image: 'assets/images/product.png',
-            availableInventory: 5,
-        },
+        products: [],
         cart: [],
     },
     filters: {
@@ -54,8 +47,8 @@ let webstore = new Vue({
         }
     },
     methods: {
-        addToCart: function () {
-            this.cart.push(this.product.id);
+        addToCart: function (aProduct) {
+            this.cart.push(aProduct.id);
         },
         showCheckout() {
             this.showProduct = this.showProduct ? false : true;
@@ -63,14 +56,47 @@ let webstore = new Vue({
         },
         submitForm() {
             alert('submitted')
-        }
+        },
+        checkRating (n, myProduct) {
+            return myProduct.rating - n >= 0;
+        },
+        canAddToCart: function (aProduct) {
+            return aProduct.availableInventory > this.cartCount(aProduct.id);
+        },
+        cartCount(id) {
+            let count = 0;
+            for (let i = 0; i < this.cart.length; i++){
+                if(this.cart[i] === id){
+                    count++;
+                }
+            }
+            return count;
+        },
     },
     computed: {
         cartItemCount: function () {
             return this.cart.length || '';
         },
-        canAddToCart: function () {
-            return this.product.availableInventory > this.cartItemCount;
+    },
+    /*sortedProducts() {
+        if(this.products.length > 0) {
+            let productsArray = this.products.slice(0);
+            function compare (a, b) {
+                if(a.title.toLowerCase() < b.title.toLowerCase())
+                    return -1;
+                if(a.title.toLowerCase() > b.title.toLowerCase())
+                    return  0;
+            }
+            return productsArray.sort(compare);
         }
+    },*/
+    created: function () {
+        axios.get('https://my-json-server.typicode.com/seb510/products/db').then(
+            (response) => {
+                this.products = response.data.products;
+                console.log(this.products)
+                this.sortedProducts()
+            }
+        )
     }
 })

@@ -17,4 +17,36 @@ img {
     margin: 0 8px;
 }
 
+.info-group {
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+.inventory-message {
+    margin-left: 10px;
+    padding: 7px;
+    border-radius: 5px;
+}
 
+.rating {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+.rating span {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 25px;
+}
+
+.rating span svg {
+    fill: #a3a3a3;
+    stroke: #fcd83a;
+}
+.rating span.rating-active svg {
+    fill: #fcd83a;
+}
+.rating span:not(:last-child) {
+    margin-right: 5px;
+}
