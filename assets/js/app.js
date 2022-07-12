@@ -95,7 +95,7 @@ let webstore = new Vue({
             (response) => {
                 this.products = response.data.products;
                 console.log(this.products)
-                this.sortedProducts()
+                //this.sortedProducts()
             }
         )
     }
